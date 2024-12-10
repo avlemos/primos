@@ -1,0 +1,3 @@
+Os ficheiros foram indentados usando o programa indent, com os seguintes settings: "-kr -i8".
+
+Para usar o programa basta fazer make para compilar e depois executar o programa primos. Para ajuda sobre a utilização do programa, executar primos com a flag -h.
