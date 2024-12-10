@@ -10,7 +10,7 @@ HDRS = getopt.h calc.h
 SRCS = calc.c getopt.c
 FILES = primos
 
-# significa que os ficheiros objecto t�m o mesmo nome que as sources mas com a extens�o .o
+# significa que os ficheiros objecto têm o mesmo nome que as sources mas com a extensão .o
 OBJS = $(SRCS:.c=.o)
 
 $(PROG) : $(OBJS)
