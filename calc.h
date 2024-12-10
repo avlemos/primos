@@ -1,0 +1,1 @@
+void calcprimos(long int a, long int b);

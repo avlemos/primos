@@ -1,9 +1,10 @@
-/* esta função calcula os primos e representa o filho(s) da função principal */
+/* esta funï¿½ï¿½o calcula os primos e representa o filho(s) da funï¿½ï¿½o principal */
 /*     http://www.numaboa.com.br/criptologia/matematica/primos.php	     */
 
 
 #include <stdio.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 typedef struct {		// estrutura que vai ter o numero primo e o pid
 	pid_t processo;		// numero do processo
@@ -12,33 +13,33 @@ typedef struct {		// estrutura que vai ter o numero primo e o pid
 
 void calcprimos(long int a, long int b)	// a representa o limite inferior, e o b o superior
 {
-	int i, j, k, z;		// inteiros relativos ao cálculo dos números primos
+	int i, j, k, z;		// inteiros relativos ao cï¿½lculo dos nï¿½meros primos
 	extern int pdes[2];	// aproveitar o mesmo pipe criado no ficheiro principal
 	FILE *fp;
 	recebe envia;
 	envia.processo = getpid();	// armazenar o pid deste filho na estrutura
 
-//  Debug para o intervalo de números
+//  Debug para o intervalo de nï¿½meros
 //      printf("inferior: %d, superior: %d\n", a, b);
 //
 
-	for (i = a; i <= b; i++) {	// percorrer números a testar
-		if (i <= 1)	// tem que se ter cuidado porque o 1 não é número primo
+	for (i = a; i <= b; i++) {	// percorrer nï¿½meros a testar
+		if (i <= 1)	// tem que se ter cuidado porque o 1 nï¿½o ï¿½ nï¿½mero primo
 			i = 2;
-		z = 0;		// voltar a por a variável de contagem de divisores a 0
+		z = 0;		// voltar a por a variï¿½vel de contagem de divisores a 0
 		for (j = i; j > 0; j--) {	// ciclo para percorrer os divisores
-			k = i % j;	// calcular o módulo do possível primo por um divisor
-			if (k == 0 && j != 1 && j != i)	// se o número tiver divisor, não for igual a ele próprio
+			k = i % j;	// calcular o mï¿½dulo do possï¿½vel primo por um divisor
+			if (k == 0 && j != 1 && j != i)	// se o nï¿½mero tiver divisor, nï¿½o for igual a ele prï¿½prio
 				z++;	// nem estiver a ser dividido pela unidade, incrementar o
 		}
 
-		if (z == 0) {	// se a condição de cima nunca aconteceu, então tem que ser primo
+		if (z == 0) {	// se a condiï¿½ï¿½o de cima nunca aconteceu, entï¿½o tem que ser primo
 			envia.numero = i;
 			write(pdes[1], &envia, sizeof(recebe));
 		}
 	}
-	i = -1;			// as próximas linhas fazem com que este processo no fim de por os primos no pipe, o encerre com um -1 para que o pai
-	envia.numero = i;	// saiba quando acaba um, e começa outro
+	i = -1;			// as prï¿½ximas linhas fazem com que este processo no fim de por os primos no pipe, o encerre com um -1 para que o pai
+	envia.numero = i;	// saiba quando acaba um, e comeï¿½a outro
 	write(pdes[1], &envia, sizeof(recebe));
-	fclose(fp);		// necessário para os números aparecerem por ordem
+	fclose(fp);		// necessï¿½rio para os nï¿½meros aparecerem por ordem
 }

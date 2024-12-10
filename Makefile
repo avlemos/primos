@@ -6,11 +6,11 @@ CFLAGS = -g
 
 PROG = primos
 
-HDRS = getopt.h
+HDRS = getopt.h calc.h
 SRCS = calc.c getopt.c
 FILES = primos
 
-# significa que os ficheiros objecto têm o mesmo nome que as sources mas com a extensão .o
+# significa que os ficheiros objecto tï¿½m o mesmo nome que as sources mas com a extensï¿½o .o
 OBJS = $(SRCS:.c=.o)
 
 $(PROG) : $(OBJS)

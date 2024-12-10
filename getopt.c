@@ -1,34 +1,35 @@
 #include <stdio.h>
-#include <sys/types.h>		// necessário para fork()
-#include <unistd.h>		// necessário para o getopt() e fork()
-#include <stdlib.h>		// necessário para o atoi/atol
+#include <sys/types.h>		// necessï¿½rio para fork()
+#include <unistd.h>		// necessï¿½rio para o getopt() e fork()
+#include <stdlib.h>		// necessï¿½rio para o atoi/atol
 #include <string.h>
-#include <signal.h>		// necessário para o kill()
+#include <signal.h>		// necessï¿½rio para o kill()
 
 #include "getopt.h"
+#include "calc.h"
 
 typedef struct {		// estrutura que vai ter o numero primo e o pid
 	pid_t processo;		// numero do processo
 	int numero;		// numero primo 
 } recebe;
 
-int pdes[2];			// declaração do pipe
+int pdes[2];			// declaraï¿½ï¿½o do pipe
 
-void pai(int pdes[2], int p1, char *lvalor, FILE * fp, int m)	// declaração da função do pai
+void pai(int pdes[2], int p1, char *lvalor, FILE * fp, int m)	// declaraï¿½ï¿½o da funï¿½ï¿½o do pai
 {				// pipe, numero de primos a calcular, nome do ficheiro, ponteiro para o ficheiro, 
-	// número de processos criados
+	// nï¿½mero de processos criados
 	recebe buf;
-	int g = 0;		//a variável g representa o número de read() feitos (tem que coincidir com os processos)
-	int l = 0;		// a variável l conta o número de primos lidos
+	int g = 0;		//a variï¿½vel g representa o nï¿½mero de read() feitos (tem que coincidir com os processos)
+	int l = 0;		// a variï¿½vel l conta o nï¿½mero de primos lidos
 	while (g != m) {
-		//while (g != m && p1 != l) {   // enquanto não forem lidas as mesmas vezes que os processos, continuar a ler
+		//while (g != m && p1 != l) {   // enquanto nï¿½o forem lidas as mesmas vezes que os processos, continuar a ler
 		read(pdes[0], &buf, sizeof(recebe));
-		if (buf.numero == -1)	// quando o número é -1, significa que o processo filho terminou de encher o pipe
+		if (buf.numero == -1)	// quando o nï¿½mero ï¿½ -1, significa que o processo filho terminou de encher o pipe
 			g++;
 		else
 			l++;
-		if (buf.numero != -1 && p1 >= l) {	//se n estivermos no fim do pipe e o número total de primos ainda n tiver sido alcançado
-			if (lvalor == NULL) {	//se o ficheiro n for definido na linha de comandos, imprimir no ecrã
+		if (buf.numero != -1 && p1 >= l) {	//se n estivermos no fim do pipe e o nï¿½mero total de primos ainda n tiver sido alcanï¿½ado
+			if (lvalor == NULL) {	//se o ficheiro n for definido na linha de comandos, imprimir no ecrï¿½
 				printf
 				    ("[PRIMO: %d]\t [PROCESSO: %d]\n",
 				     buf.numero, buf.processo);
@@ -37,13 +38,13 @@ void pai(int pdes[2], int p1, char *lvalor, FILE * fp, int m)	// declaração da f
 					"[PRIMO: %d]\t [PROCESSO %d]\n",
 					buf.numero, buf.processo);
 			}
-		} else {	// se já tivermos atingido o número de primos desejados
-			if (buf.numero == -1 && p1 <= l) {	// se estivermos no fim de um processo, e se já tivermos os primos
+		} else {	// se jï¿½ tivermos atingido o nï¿½mero de primos desejados
+			if (buf.numero == -1 && p1 <= l) {	// se estivermos no fim de um processo, e se jï¿½ tivermos os primos
 				if (lvalor == NULL)
 					printf
-					    ("\nO processo %d não é mais necessário, vou matá-lo..\n",
+					    ("\nO processo %d nï¿½o ï¿½ mais necessï¿½rio, vou matï¿½-lo..\n",
 					     buf.processo);
-				kill(buf.processo, SIGKILL);	// matam-se os processos que já não são necessários
+				kill(buf.processo, SIGKILL);	// matam-se os processos que jï¿½ nï¿½o sï¿½o necessï¿½rios
 			}
 		}
 	}
@@ -51,21 +52,21 @@ void pai(int pdes[2], int p1, char *lvalor, FILE * fp, int m)	// declaração da f
 int main(int argc, char **argv)
 {
 	extern char *optarg;
-	char *pvalor = NULL;	// número de primos a achar 
-	char *nvalor = NULL;	// número de processos de procura
+	char *pvalor = NULL;	// nï¿½mero de primos a achar 
+	char *nvalor = NULL;	// nï¿½mero de processos de procura
 	char *tvalor = NULL;	// comprimento do subintervalo
 	char *lvalor = NULL;	// nome do ficheiro onde guardar o log
 	char *gvalor = NULL;	// gama dos valores
-	char *num1, *num2;	// num1 é o limite inferior, e o num2 o superior (-g) 
+	char *num1, *num2;	// num1 ï¿½ o limite inferior, e o num2 o superior (-g) 
 
 	int o, p1, n1, t1, i, j, m = 0, na, nb, a, b = 0;
 	FILE *fp;
 
-	if (pipe(pdes) == -1) {	// inicialização do pipe, se n for possível, dar erro
+	if (pipe(pdes) == -1) {	// inicializaï¿½ï¿½o do pipe, se n for possï¿½vel, dar erro
 		perror("Error");
 	}
 
-/* documentação usada para usar o getopt():
+/* documentaï¿½ï¿½o usada para usar o getopt():
 http://www.opengroup.org/onlinepubs/009695399/functions/getopt.html
 http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 */
@@ -87,24 +88,24 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 		case 'g':
 			gvalor = optarg;
 			break;
-		case 'h':	// todos os outros case têm breaks para que quando se ponha a flag -h nada mais aconteça
+		case 'h':	// todos os outros case tï¿½m breaks para que quando se ponha a flag -h nada mais aconteï¿½a
 			printf("Ajuda:\n\n");
-			printf("-p\tNúmero de primos a calcular\n");
+			printf("-p\tNï¿½mero de primos a calcular\n");
 			printf
-			    ("-n\tNúmero de processos a criar pelo processo detective\n");
+			    ("-n\tNï¿½mero de processos a criar pelo processo detective\n");
 			printf
 			    ("-t\tComprimento dos sub-intervalos para atribuir a cada processo-filho\n");
 			printf
-			    ("-l\tFicheiro que irá conter os vários números primos\n");
+			    ("-l\tFicheiro que irï¿½ conter os vï¿½rios nï¿½meros primos\n");
 			printf("-g\tGama limiteInferior:limiteSuperior\n");
 			exit(0);
 
 		}
 
 
-	if (lvalor != NULL) {	// se o ficheiro for especificado, então abre-se de imediato
-		fp = fopen(lvalor, "w");	// parte-se do principio que o utilizador não quer binário, e que não quer acomular resultados (w)
-		if (fp == NULL) {	// informa o utilizador se n for possível abrir o ficheiro
+	if (lvalor != NULL) {	// se o ficheiro for especificado, entï¿½o abre-se de imediato
+		fp = fopen(lvalor, "w");	// parte-se do principio que o utilizador nï¿½o quer binï¿½rio, e que nï¿½o quer acomular resultados (w)
+		if (fp == NULL) {	// informa o utilizador se n for possï¿½vel abrir o ficheiro
 			printf
 			    ("Houve um erro ao abrir o ficheiro para escrita\n");
 			exit(6);
@@ -113,11 +114,11 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 
 	if ((tvalor == NULL) && (nvalor == NULL)) {
 		printf
-		    ("Deve especificar um dos valores, ou o do número de processos, ou o tamanho do sub-intervalo\n");
+		    ("Deve especificar um dos valores, ou o do nï¿½mero de processos, ou o tamanho do sub-intervalo\n");
 		exit(2);
 	}
 
-	if (nvalor != NULL) {	// tratamento para quando n são dados valores
+	if (nvalor != NULL) {	// tratamento para quando n sï¿½o dados valores
 		n1 = atoi(nvalor);
 	} else {
 		n1 = VALORN;
@@ -133,51 +134,51 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 		t1 = VALORT;
 	}
 	if (gvalor != NULL) {
-		num1 = (char *) malloc(sizeof(char) * 9);	// alocar memória para o limite superior e inferior, sem isto em algumas ocasiões
+		num1 = (char *) malloc(sizeof(char) * 9);	// alocar memï¿½ria para o limite superior e inferior, sem isto em algumas ocasiï¿½es
 		num2 = (char *) malloc(sizeof(char) * 9);	// o programa estoirava. O 9 serve para que o long int possa ser utilizado (9 digitos)
-		for (i = 0; gvalor[i] != ':'; i++)	//tirar o valor inferior até aos :
+		for (i = 0; gvalor[i] != ':'; i++)	//tirar o valor inferior atï¿½ aos :
 			num1[i] = gvalor[i];
 		i++;
-		for (j = 0; gvalor[i] != '\0'; i++, j++) {	//tirar o valor superior até ao fim
+		for (j = 0; gvalor[i] != '\0'; i++, j++) {	//tirar o valor superior atï¿½ ao fim
 			num2[j] = gvalor[i];
 		}
 		nb = atol(num1);	//passar a string para long int (9 digitos)
-		na = atol(num2);	//claro k 9 digitos é um bocado abusivo...
+		na = atol(num2);	//claro k 9 digitos ï¿½ um bocado abusivo...
 	}
 
-	else {			// se o valor da gama não for especificado, usar os valores que estão em getopt.h
+	else {			// se o valor da gama nï¿½o for especificado, usar os valores que estï¿½o em getopt.h
 		nb = VALORB;
 		na = VALORA;
 	}
 
-	/*      VERIFICAÇÕES SOBRE A VALIDADE DO INPUT DO UTILIZADOR        */
+	/*      VERIFICAï¿½ï¿½ES SOBRE A VALIDADE DO INPUT DO UTILIZADOR        */
 
 	if ((nvalor != NULL) && (tvalor != NULL)) {
 		printf
-		    ("Especifique apenas ou o número de processos, ou o tamanho do subintervalo\n");
+		    ("Especifique apenas ou o nï¿½mero de processos, ou o tamanho do subintervalo\n");
 		exit(2);
 	}
 
-	if ((nb) > (na)) {	//até se podia por para trocar
-		printf("A gama foi escrita ao contrário....\n");	//mas só se ia gastar mais uma variável :p
+	if ((nb) > (na)) {	//atï¿½ se podia por para trocar
+		printf("A gama foi escrita ao contrï¿½rio....\n");	//mas sï¿½ se ia gastar mais uma variï¿½vel :p
 		exit(2);
 	}
 
 	if (n1 < 1) {
 		printf
-		    ("O número de processos deve ser sempre maior que 0\n");
+		    ("O nï¿½mero de processos deve ser sempre maior que 0\n");
 		exit(2);
 	}
 
-	if (n1 > ((nb + na) / 2)) {	// não consegui gerar um melhor algoritmo para dividir o tamanho da gama pelos processos
+	if (n1 > ((nb + na) / 2)) {	// nï¿½o consegui gerar um melhor algoritmo para dividir o tamanho da gama pelos processos
 		printf
-		    ("O número de processos deve ser igual ou menor que o tamanho da gama\n");
+		    ("O nï¿½mero de processos deve ser igual ou menor que o tamanho da gama\n");
 		exit(2);
 	}
 
 	if (p1 < 1) {
 		printf
-		    ("O número de primos a calcular deve ser sempre maior que 0\n");
+		    ("O nï¿½mero de primos a calcular deve ser sempre maior que 0\n");
 		exit(2);
 	}
 
@@ -189,16 +190,16 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 
 	if (t1 > (na - nb)) {
 		printf
-		    ("O tamanho do subintervalo deve ser inferior à gama de valores\n");
+		    ("O tamanho do subintervalo deve ser inferior ï¿½ gama de valores\n");
 		exit(2);
 	}
 
 
-	/*                      FIM DAS VERIFICAÇÕES                    */
+	/*                      FIM DAS VERIFICAï¿½ï¿½ES                    */
 
 
 	if ((tvalor == NULL) && (nvalor != NULL)) {
-		a = ((na - nb) / n1);	// números por cada intervalo
+		a = ((na - nb) / n1);	// nï¿½meros por cada intervalo
 		b = ((na - nb) % n1);
 		na = (a) + nb;
 	}
@@ -213,13 +214,13 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 	if (nb == 0)
 		nb++;
 
-	while (n1 > 0) {	//ciclo para criar número de forks
+	while (n1 > 0) {	//ciclo para criar nï¿½mero de forks
 		if (fork() == 0) {
 			calcprimos(nb, na);	// passar o limite inferior e o limite superior
 		} else {
 			m++;	// por cada fork incrementar o m para depois se poder ler M vezes o pipe (o read bloqueia com o pipe vazio)
 		}
-		n1--;		// mais um fork criado, passar ao próximo
+		n1--;		// mais um fork criado, passar ao prï¿½ximo
 
 		if ((tvalor != NULL) && (nvalor == NULL)) {
 			nb = nb + t1;
@@ -230,16 +231,15 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 
 		else {
 
-			if (b != 0 && n1 == 1)	// ter algum cuidado se a divisão da gama pelos processos n for certa, e acrescentar o resto ao último processo
+			if (b != 0 && n1 == 1)	// ter algum cuidado se a divisï¿½o da gama pelos processos n for certa, e acrescentar o resto ao ï¿½ltimo processo
 				na = na + a + b;
 			else
 				na = na + a;
-			nb = nb + a;	// calcular o próximo valor inferior para o próximo fork
+			nb = nb + a;	// calcular o prï¿½ximo valor inferior para o prï¿½ximo fork
 		}
 	}
 
-	pai(pdes, p1, lvalor, fp, m);	// invocar a função pai com pipe, numero de primos a calcular, nome do ficheiro, ponteiro para o ficheiro, número de processos criados
+	pai(pdes, p1, lvalor, fp, m);	// invocar a funï¿½ï¿½o pai com pipe, numero de primos a calcular, nome do ficheiro, ponteiro para o ficheiro, nï¿½mero de processos criados
 	close(pdes[1]);		// fechar o pipe (escrita)
-	fcloseall();		// fechar os ficheiros
-	return 1;
+	exit(1);
 }
