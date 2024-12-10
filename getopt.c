@@ -42,7 +42,7 @@ void pai(int pdes[2], int p1, char *lvalor, FILE * fp, int m)	// declara��o 
 			if (buf.numero == -1 && p1 <= l) {	// se estivermos no fim de um processo, e se j� tivermos os primos
 				if (lvalor == NULL)
 					printf
-					    ("\nO processo %d n�o � mais necess�rio, vou mat�-lo..\n",
+					    ("\nO processo %d não é mais necessário, vou matá-lo..\n",
 					     buf.processo);
 				kill(buf.processo, SIGKILL);	// matam-se os processos que j� n�o s�o necess�rios
 			}
@@ -90,13 +90,13 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 			break;
 		case 'h':	// todos os outros case t�m breaks para que quando se ponha a flag -h nada mais aconte�a
 			printf("Ajuda:\n\n");
-			printf("-p\tN�mero de primos a calcular\n");
+			printf("-p\tNúmero de primos a calcular\n");
 			printf
-			    ("-n\tN�mero de processos a criar pelo processo detective\n");
+			    ("-n\tNúmero de processos a criar pelo processo detective\n");
 			printf
 			    ("-t\tComprimento dos sub-intervalos para atribuir a cada processo-filho\n");
 			printf
-			    ("-l\tFicheiro que ir� conter os v�rios n�meros primos\n");
+			    ("-l\tFicheiro que irá conter os vários números primos\n");
 			printf("-g\tGama limiteInferior:limiteSuperior\n");
 			exit(0);
 
@@ -114,7 +114,7 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 
 	if ((tvalor == NULL) && (nvalor == NULL)) {
 		printf
-		    ("Deve especificar um dos valores, ou o do n�mero de processos, ou o tamanho do sub-intervalo\n");
+		    ("Deve especificar um dos valores, ou o do número de processos, ou o tamanho do sub-intervalo\n");
 		exit(2);
 	}
 
@@ -155,30 +155,30 @@ http://www.gnu.org/software/libc/manual/html_node/Getopt.html
 
 	if ((nvalor != NULL) && (tvalor != NULL)) {
 		printf
-		    ("Especifique apenas ou o n�mero de processos, ou o tamanho do subintervalo\n");
+		    ("Especifique apenas ou o número de processos, ou o tamanho do subintervalo\n");
 		exit(2);
 	}
 
 	if ((nb) > (na)) {	//at� se podia por para trocar
-		printf("A gama foi escrita ao contr�rio....\n");	//mas s� se ia gastar mais uma vari�vel :p
+		printf("A gama foi escrita ao contrário....\n");	//mas s� se ia gastar mais uma vari�vel :p
 		exit(2);
 	}
 
 	if (n1 < 1) {
 		printf
-		    ("O n�mero de processos deve ser sempre maior que 0\n");
+		    ("O námero de processos deve ser sempre maior que 0\n");
 		exit(2);
 	}
 
 	if (n1 > ((nb + na) / 2)) {	// n�o consegui gerar um melhor algoritmo para dividir o tamanho da gama pelos processos
 		printf
-		    ("O n�mero de processos deve ser igual ou menor que o tamanho da gama\n");
+		    ("O número de processos deve ser igual ou menor que o tamanho da gama\n");
 		exit(2);
 	}
 
 	if (p1 < 1) {
 		printf
-		    ("O n�mero de primos a calcular deve ser sempre maior que 0\n");
+		    ("O número de primos a calcular deve ser sempre maior que 0\n");
 		exit(2);
 	}
 
